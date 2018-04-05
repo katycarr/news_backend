@@ -4,4 +4,8 @@ Rails.application.routes.draw do
   resources :articles, only: [:index]
 
   resources :users, only: [:create]
+
+  resources :topics, only: [:index]
+
+  post '/login', to: 'auth#create'
 end
