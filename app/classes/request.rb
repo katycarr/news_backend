@@ -11,6 +11,6 @@ class Request
   end
 
   def generate_url(category)
-    BASE+'?category='+category+'&country=us&apiKey='+KEY
+    BASE+'?category='+category+'&apiKey='+KEY
   end
 end
