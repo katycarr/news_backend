@@ -6,7 +6,6 @@ class FeedManager
   def pull_stories
     req = Request.new
     response = []
-    byebug
     CAT.each do |cat|
       response << req.get_articles(cat)
     end

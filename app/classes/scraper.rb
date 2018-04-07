@@ -7,7 +7,7 @@ class Scraper
   def scrape(url)
     begin
       page = RestClient.get(url)
-    rescue RestClient::Unauthorized, RestClient::Forbidden => err
+    rescue RestClient::Unauthorized, RestClient::Forbidden, RestClient::Exceptions::ReadTimeout => err
     else
       page
     end

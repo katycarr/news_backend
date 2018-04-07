@@ -7,6 +7,10 @@ class Funnel
     topics.each do |topic|
       chosen_articles << topic.articles
     end
-    chosen_articles.flatten!.uniq!
+    if chosen_articles != []
+      chosen_articles.flatten!.uniq!
+    end
+    chosen_articles
   end
+
 end
