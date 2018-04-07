@@ -1,11 +1,19 @@
 
 class FeedManager
+
+  CAT = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
+
   def pull_stories
     req = Request.new
-    response = req.get_articles
+    response = []
+    byebug
+    CAT.each do |cat|
+      response << req.get_articles(cat)
+    end
+    response.flatten!
 
     scr = Scraper.new
-    response["articles"].each do |article|
+    response.each do |article|
       text = scr.scrape(article["url"])
       @article = Article.find_by(url: article["url"])
       if !@article
