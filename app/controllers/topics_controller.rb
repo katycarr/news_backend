@@ -1,7 +1,18 @@
 class TopicsController < ApplicationController
 
   def index
-    @topics = loggedin_user.topics
+    if params["pop"]
+      # ordered_topics = Topic.all.sort do |a, b|
+      #   b.articles.length <=> a.articles.length
+      # end
+
+      # @topics = ordered_topics.first(10)
+      @topics = Topic.all.select do |topic|
+        topic.articles.length >= 5
+      end
+    else
+      @topics = loggedin_user.topics
+    end
     render json: @topics
   end
 
