@@ -12,6 +12,5 @@ class Article < ApplicationRecord
       end
     end
     self.reading_time = Timer.new.get_time(article_text)
-
   end
 end
