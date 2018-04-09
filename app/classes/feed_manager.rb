@@ -7,10 +7,14 @@ class FeedManager
     req = Request.new
     response = []
     CAT.each do |cat|
-      response << req.get_articles(cat)
+      response << req.get_articles_by_category(cat)
     end
     response.flatten!
 
+    scrape_and_create(response)
+  end
+
+  def scrape_and_create(response)
     scr = Scraper.new
     response.each do |article|
       text = scr.scrape(article["url"])
@@ -28,5 +32,19 @@ class FeedManager
         )
       end
     end
+  end
+
+  def query_all(user_topics)
+    user_topics.each do |topic|
+      query_stories(topic.name)
+    end
+  end
+
+  def query_stories(keyword)
+    req = Request.new
+    response = req.get_articles_by_keyword(keyword)
+
+    scrape_and_create(response)
+
   end
 end
