@@ -11,5 +11,7 @@ class Article < ApplicationRecord
         self.topics << @topic
       end
     end
+    self.reading_time = Timer.new.get_time(article_text)
+
   end
 end

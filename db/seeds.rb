@@ -6,4 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-FeedManager.new.pull_stories
+# FeedManager.new.pull_stories
+
+
+Article.all.each do |article|
+  full_text = Scraper.new.scrape(article.url)
+  article.reading_time = Timer.new.get_time(full_text)
+  article.save
+end
