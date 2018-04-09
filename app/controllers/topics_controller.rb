@@ -2,14 +2,14 @@ class TopicsController < ApplicationController
 
   def index
     if params["pop"]
-      # ordered_topics = Topic.all.sort do |a, b|
-      #   b.articles.length <=> a.articles.length
-      # end
-
-      # @topics = ordered_topics.first(10)
-      @topics = Topic.all.select do |topic|
-        topic.articles.length >= 5
-      end
+      @topics = Topic.find_by_sql(["
+        SELECT topics.*, COUNT(article_topics) AS article_count
+        FROM topics
+          INNER JOIN article_topics ON article_topics.topic_id = topics.id
+        GROUP BY topics.id
+        ORDER BY article_count DESC
+        LIMIT 10
+        "])
     else
       @topics = loggedin_user.topics
     end

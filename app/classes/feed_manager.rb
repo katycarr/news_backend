@@ -40,9 +40,11 @@ class FeedManager
     end
   end
 
-  def query_stories(keyword)
+  def query_stories(topic_name)
     req = Request.new
-    response = req.get_articles_by_keyword(keyword)
+    split_name = topic_name.gsub(/[^0-9a-z ]/i, '').split(' ')
+    joined = split_name.join(' OR ')
+    response = req.get_articles_by_keyword(joined)
 
     scrape_and_create(response)
 

@@ -13,7 +13,8 @@ class Request
 
   def get_articles_by_keyword(keyword)
     yesterday = Date.yesterday.to_s
-    response = RestClient.get(generate_url('everything', 'q', keyword)+`from=#{yesterday}`)
+    url = generate_url('everything', 'q', keyword)
+    response = RestClient.get(url+'&from='+yesterday)
     JSON.parse(response)["articles"]
   end
 

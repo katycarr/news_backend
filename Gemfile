@@ -25,6 +25,8 @@ gem 'nokogiri'
 gem 'aylien_text_api'
 gem 'ruby-readability'
 
+gem 'readingtime'
+
 gem 'active_model_serializers'
 
 gem 'rest-client'
