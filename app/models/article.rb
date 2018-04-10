@@ -11,6 +11,9 @@ class Article < ApplicationRecord
         self.topics << @topic
       end
     end
-    self.reading_time = Timer.new.get_time(article_text)
+    if !article_text.empty?
+      self.reading_time = Timer.new.get_time(article_text)
+      self.emotion = Watson.new.get_emotion(article_text)
+    end
   end
 end

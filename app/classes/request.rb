@@ -19,6 +19,6 @@ class Request
   end
 
   def generate_url(type, key, value)
-    BASE+type+'?'+key+'='+value+'&apiKey='+KEY
+    BASE+type+'?'+key+'='+value+'&apiKey='+KEY+'&language=en'
   end
 end

@@ -7,7 +7,7 @@ class Scraper
   def scrape(url)
     begin
       page = RestClient.get(url)
-    rescue RestClient::Unauthorized, RestClient::Forbidden, RestClient::Exceptions::ReadTimeout, Zlib::GzipFile::Error, Errno::ECONNREFUSED, RestClient::NotFound => err 
+    rescue RestClient::Unauthorized, RestClient::Forbidden, RestClient::Exceptions::ReadTimeout, Zlib::GzipFile::Error, Errno::ECONNREFUSED, RestClient::NotFound, RestClient::BadGateway => err 
     else
       page
     end

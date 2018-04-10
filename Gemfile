@@ -29,6 +29,7 @@ gem 'readingtime'
 
 gem 'active_model_serializers'
 
+gem 'watson-api-client'
 gem 'rest-client'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
