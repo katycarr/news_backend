@@ -19,11 +19,12 @@ class Watson
   end
 
   def get_emotion(text)
-    if text.length < 6000
-      res = query(text)
-      if res
-        res["sentiment"]["document"]["label"]
-      end
+    if text.length >= 10000
+      text = text.substring(0,9999)
+    end
+    res = query(text)
+    if res
+      res["sentiment"]["document"]["label"]
     end
   end
 end

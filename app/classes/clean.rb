@@ -6,6 +6,6 @@ class Clean
       article.published_at < 1.week.ago
     end
     Article.delete(id: old_articles.map(&:id))
-    ArticleTopic.delete(article_id: old_articles.map(&:id)
+    ArticleTopic.delete(article_id: old_articles.map(&:id))
   end
 end
