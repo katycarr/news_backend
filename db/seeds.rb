@@ -9,8 +9,15 @@
 # FeedManager.new.pull_stories
 
 
-Article.all.each do |article|
-  full_text = Scraper.new.scrape(article.url)
-  article.reading_time = Timer.new.get_time(full_text)
-  article.save
-end
+# Article.all.each do |article|
+#   full_text = Scraper.new.scrape(article.url)
+#   article.reading_time = Timer.new.get_time(full_text)
+#   article.save
+# end
+
+Article.delete_all
+Article.reset_pk_sequence
+ArticleTopic.delete_all
+ArticleTopic.reset_pk_sequence
+
+FeedManager.new.pull_stories

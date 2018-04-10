@@ -12,7 +12,7 @@ class Watson
         features: 'sentiment,emotion',
         text: text
       )
-    rescue RestClient::BadGateway, RestClient::UnprocessableEntity => err
+    rescue RestClient::BadGateway, RestClient::UnprocessableEntity, RestClient::BadRequest => err
     else
       JSON.parse(result)
     end
