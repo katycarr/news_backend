@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :topics, only: [:create, :destroy, :index]
 
+  resources :readings, only: [:create, :update, :index]
+
 
   post '/login', to: 'auth#create'
 

@@ -10,6 +10,8 @@ class TopicsController < ApplicationController
         ORDER BY article_count DESC
         LIMIT 10
         "])
+    elsif params["article_id"]
+      @topics = Article.find(params["article_id"]).topics
     else
       @topics = loggedin_user.topics
     end

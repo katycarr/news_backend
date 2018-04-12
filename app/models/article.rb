@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
   has_many :article_topics
   has_many :topics, through: :article_topics
+  has_many :readings
 
   def text=(article_text)
     categorizer = Categorizer.new
