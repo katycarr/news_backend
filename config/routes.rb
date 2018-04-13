@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   post '/login', to: 'auth#create'
 
   get '/get_user', to: 'auth#show'
+
+  get '/new_articles', to: 'articles#getnew'
 end
