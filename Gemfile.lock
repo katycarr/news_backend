@@ -38,6 +38,8 @@ GEM
       activemodel (= 5.1.6)
       activesupport (= 5.1.6)
       arel (~> 8.0)
+    activerecord-import (0.22.0)
+      activerecord (>= 3.2)
     activerecord-reset-pk-sequence (0.2.1)
     activesupport (5.1.6)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -158,6 +160,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
+  activerecord-import
   activerecord-reset-pk-sequence
   aylien_text_api
   bcrypt (~> 3.1.7)
