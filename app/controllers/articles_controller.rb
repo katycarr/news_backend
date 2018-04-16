@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
 
   def index
-    @articles = Funnel.new.select(loggedin_user)
+    @articles = loggedin_user.articles
     if params[:start]
       start = params[:start].to_i
     else
@@ -13,7 +13,7 @@ class ArticlesController < ApplicationController
 
   def getnew
     Clean.new.clear_old
-    old_article_ids = Funnel.new.select(loggedin_user).map {|article| article.id}
+    old_article_ids = loggedin_user.articles.map {|article| article.id}
     FeedManager.new.query_all(loggedin_user.topics)
     FeedManager.new.pull_stories
     new_articles = Funnel.new.select(loggedin_user).select { |article| !old_article_ids.include?(article.id)}

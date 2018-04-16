@@ -16,6 +16,7 @@ class FeedManager
 
   def scrape_and_create(response)
     scr = Scraper.new
+    
     response.each do |article|
       text = scr.scrape(article["url"])
       @article = Article.find_by(url: article["url"])
