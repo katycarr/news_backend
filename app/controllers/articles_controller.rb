@@ -16,7 +16,7 @@ class ArticlesController < ApplicationController
     old_article_ids = loggedin_user.articles.map {|article| article.id}
     FeedManager.new.query_all(loggedin_user.topics)
     FeedManager.new.pull_stories
-    new_articles = Funnel.new.select(loggedin_user).select { |article| !old_article_ids.include?(article.id)}
+    new_articles = loggedin_user.articles.select { |article| !old_article_ids.include?(article.id)}
     render json: new_articles
   end
 
