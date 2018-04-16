@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
     FeedManager.new.query_all(loggedin_user.topics)
     FeedManager.new.pull_stories
     new_articles = loggedin_user.articles.select { |article| !old_article_ids.include?(article.id)}
-    render json: new_articles
+    render json: loggedin_user.articles
   end
 
 end

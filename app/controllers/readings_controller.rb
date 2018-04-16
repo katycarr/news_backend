@@ -3,20 +3,11 @@ class ReadingsController < ApplicationController
   def create
     @reading = Reading.new(user_id: loggedin_user.id, article_id:params["articleId"])
     if @reading.save
-      render json: { @reading.article_id => @reading }
+      render json:  @reading.article
     else
       render json: {errors: @reading.errors.full_messages}
     end
   end
-
-  # def index
-  #   @readings = loggedin_user.readings
-  #   readingObject = {}
-  #   @readings.each do |reading|
-  #     readingObject[reading.article_id] = reading
-  #   end
-  #   render json: readingObject
-  # end
 
   def index
     @readinglist = loggedin_user.readings.select { |reading| reading.read? == false}
