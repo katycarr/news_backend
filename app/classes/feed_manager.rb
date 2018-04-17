@@ -19,6 +19,7 @@ class FeedManager
     topics = categorizer.get_concepts(article_text)
     topic_ids = []
     if topics
+      urls = topics[:concepts].map
       topics[:concepts].each do |concept|
         @topic = Topic.find_or_create_by(name:concept[1][:surfaceForms][0][:string], url:concept[0].to_s)
         topic_ids << @topic.id
