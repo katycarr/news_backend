@@ -21,14 +21,16 @@ class TopicsController < ApplicationController
   def create
     @topic = Topic.find_or_create_by(name: params["topic"]["label"], url:params["topic"]["uri"])
     loggedin_user.topics << @topic
-    render json: @topic
+    @articles = paginate(params)
+    render json: {topic: @topic, articles: @articles}
   end
 
 
   def destroy
     @topic = Topic.find(params[:id])
     loggedin_user.topics.delete(@topic) if @topic
-    render json: {message: 'Success!'}
+    @articles = paginate(params)
+    render json: @articles
   end
 
 

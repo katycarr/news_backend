@@ -10,6 +10,7 @@ class FeedManager
       response << req.get_articles_by_category(cat)
     end
     response.flatten!
+    response.uniq!
 
     scrape_and_create(response)
   end

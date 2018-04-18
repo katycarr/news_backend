@@ -19,4 +19,14 @@ class ApplicationController < ActionController::API
     request.headers["Authorization"]
   end
 
+  def paginate(params)
+    @articles = loggedin_user.articles
+    if params[:start]
+      start = params[:start].to_i
+    else
+      start = 0
+    end
+    @articles = @articles[(start..start+9)]
+  end
+
 end

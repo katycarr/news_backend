@@ -13,16 +13,4 @@ class ArticlesController < ApplicationController
     render json: @articles
   end
 
-  private
-
-  def paginate(params)
-    @articles = loggedin_user.articles
-    if params[:start]
-      start = params[:start].to_i
-    else
-      start = 0
-    end
-    @articles = @articles[(start..start+19)]
-  end
-
 end
