@@ -1,13 +1,10 @@
-require 'nokogiri'
-require 'readability'
-require 'rest-client'
 
 class Scraper
 
   def scrape(url)
     begin
       page = RestClient.get(url)
-    rescue => err 
+    rescue => err
     else
       page
     end

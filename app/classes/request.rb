@@ -1,4 +1,4 @@
-require 'rest-client'
+
 
 class Request
 

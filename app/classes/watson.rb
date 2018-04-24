@@ -1,4 +1,3 @@
-require 'watson-api-client'
 
 class Watson
   def query(text)

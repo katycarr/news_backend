@@ -1,4 +1,4 @@
-require 'aylien_text_api'
+
 
 class Categorizer
   APP_ID = ENV["AYLIEN_ID"]
