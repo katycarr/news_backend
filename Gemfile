@@ -29,7 +29,7 @@ gem 'readingtime'
 
 gem 'active_model_serializers'
 
-gem 'watson-api-client'
+# gem 'watson-api-client'
 gem 'rest-client'
 
 gem 'activerecord-reset-pk-sequence'
