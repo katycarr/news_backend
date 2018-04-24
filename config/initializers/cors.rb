@@ -11,7 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: '*'
+      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
   end
 
   allow do
@@ -19,7 +19,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: '*'
+      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
   end
 
   allow do
@@ -27,6 +27,6 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: '*'
+      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
   end
 end
