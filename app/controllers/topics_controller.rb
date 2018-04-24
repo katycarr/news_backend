@@ -33,5 +33,10 @@ class TopicsController < ApplicationController
     render json: @articles
   end
 
+  def search
+    topic_options = Dbpedia.new.search(params[:q])
+    render json: topic_options["results"]
+  end
+
 
 end

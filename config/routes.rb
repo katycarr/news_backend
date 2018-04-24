@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get '/get_user', to: 'auth#show'
 
   get '/new_articles', to: 'articles#getnew'
+
+  get '/topics/search', to: 'topics#search'
 end
