@@ -20,13 +20,23 @@ class FeedManager
     topics = categorizer.get_concepts(article_text)
     topic_ids = []
     if topics
-      urls = topics[:concepts].map
-      topics[:concepts].each do |concept|
-        @topic = Topic.find_or_create_by(name:concept[1][:surfaceForms][0][:string], url:concept[0].to_s)
-        topic_ids << @topic.id
+      urls = topics[:concepts].map { |topic| topic[0].to_s }
+      existing_topics = Topic.where(url: urls)
+      existing_urls = existing_topics.map(&:url)
+      if existing_topics.length > 0
+        topic_ids << existing_topics.map(&:id)
+      end
+      new_topics = topics[:concepts].select do |concept|
+        !existing_urls.include?(concept.to_s)
+      end
+      if new_topics.length > 0
+        new_topics.each do |concept|
+          @topic = Topic.create(name:concept[1][:surfaceForms][0][:string], url:concept[0].to_s)
+          topic_ids << @topic.id
+        end
       end
     end
-    topic_ids
+    topic_ids.flatten!
   end
 
   def scrape_and_create(response)
@@ -50,10 +60,12 @@ class FeedManager
           text: text
         )
         article_topics = get_categories(text)
-        hashes = article_topics.map do |topic|
-          {article_id: @article.id, topic_id: topic}
+        if article_topics
+          hashes = article_topics.map do |topic|
+            {article_id: @article.id, topic_id: topic}
+          end
+          ArticleTopic.import hashes
         end
-        ArticleTopic.import hashes
       end
     end
   end
