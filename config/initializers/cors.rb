@@ -7,11 +7,11 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://frontpage-app.herokuapp.com/'
+    origins 'frontpage-app.herokuapp.com'
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 
   allow do
@@ -19,7 +19,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 
   allow do
@@ -27,6 +27,6 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head, :search, :getnew]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end
