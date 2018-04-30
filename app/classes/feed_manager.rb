@@ -42,11 +42,30 @@ class FeedManager
   def scrape_and_create(response)
     scr = Scraper.new
     urls = response.map {|article| article["url"]}
-    existing_articles = Article.where(url: urls).map(&:url)
-    if urls.size != existing_articles.size
-      articles_to_create = response.select {|article| !existing_articles.include?(article["url"])}
+    byebug
+    existing_articles = []
+    response.each do |article|
+      match = Article.find_by(title: article["title"])
+      if match && article["source"]["name"] == match.source
+        existing_articles << article
+      end
     end
-    if articles_to_create
+
+    if existing_articles.length != response.length
+      new_articles = response.select {|article| !existing_articles.include?(article)}
+
+      articles_to_create = []
+      new_articles.each do |article|
+        match = articles_to_create.find do |article_data|
+          article_data["title"] == article["title"] && article["source"]["name"] == article_data["source"]["name"]
+        end
+        if !match
+          articles_to_create << article
+        end
+      end
+    end
+
+    if articles_to_create && articles_to_create.length > 0
       articles_to_create.each do |article|
         text = scr.scrape(article["url"])
         @article = Article.create(
