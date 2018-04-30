@@ -6,6 +6,7 @@ class Clean
       article.published_at < 2.days.ago
     end
     Article.where(id: old_articles.map(&:id)).delete_all
+    Reading.where(article_id: old_articles.map(&:id)).delete_all
     old_article_topics = ArticleTopic.where(article_id: old_articles.map(&:id))
 
     Topic.where(id: old_article_topics.map(&:topic_id)).delete_all
