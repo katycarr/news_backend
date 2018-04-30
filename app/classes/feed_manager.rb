@@ -42,7 +42,6 @@ class FeedManager
   def scrape_and_create(response)
     scr = Scraper.new
     urls = response.map {|article| article["url"]}
-    byebug
     existing_articles = []
     response.each do |article|
       match = Article.find_by(title: article["title"])
