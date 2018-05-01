@@ -3,14 +3,14 @@ class FeedManager
 
   CAT = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology']
 
-  def pull_stories
+  def pull_stories(topics)
     req = Request.new
     response = []
     CAT.each do |cat|
       response << req.get_articles_by_category(cat)
     end
+    response << query_all(topics)
     unique_sources = uniq_by_title_and_source(response.flatten)
-
     scrape_and_create(unique_sources)
   end
 
@@ -43,8 +43,8 @@ class FeedManager
   end
 
   def scrape_and_create(response)
+    byebug
     scr = Scraper.new
-    urls = response.map {|article| article["url"]}
     existing_articles = []
     response.each do |article|
       match = Article.find_by(title: article["title"])
@@ -87,7 +87,7 @@ class FeedManager
       response << query_stories(topic.name)
     end
     unique_data = uniq_by_title_and_source(response.flatten)
-    scrape_and_create(unique_data)
+    unique_data
   end
 
   def uniq_by_title_and_source(array)
