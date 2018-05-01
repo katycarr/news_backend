@@ -9,10 +9,13 @@ class FeedManager
     CAT.each do |cat|
       response << req.get_articles_by_category(cat)
     end
-    response.flatten!
-    response.uniq!
+    unique_sources = uniq_by_title_and_source(response.flatten)
 
-    scrape_and_create(response)
+    scrape_and_create(unique_sources)
+  end
+
+  def reduce_to_title_and_source(array)
+    array.map {|res| {title: res["title"], source_name: res["source"]["name"] }}
   end
 
   def get_categories(article_text)
@@ -50,21 +53,12 @@ class FeedManager
       end
     end
 
+
     if existing_articles.length != response.length
       new_articles = response.select {|article| !existing_articles.include?(article)}
-
-      articles_to_create = []
-      new_articles.each do |article|
-        match = articles_to_create.find do |article_data|
-          article_data["title"] == article["title"] && article["source"]["name"] == article_data["source"]["name"]
-        end
-        if !match
-          articles_to_create << article
-        end
-      end
     end
 
-    if articles_to_create && articles_to_create.length > 0
+    if new_articles && new_articles.length > 0
       articles_to_create.each do |article|
         text = scr.scrape(article["url"])
         @article = Article.create(
@@ -93,8 +87,19 @@ class FeedManager
     user_topics.each do |topic|
       response << query_stories(topic.name)
     end
-    response.flatten!
-    scrape_and_create(response)
+    unique_data = uniq_by_title_and_source(response.flatten)
+    scrape_and_create(unique_data)
+  end
+
+  def uniq_by_title_and_source(array)
+    unique = []
+    array.each do |el|
+      el_hash = reduce_to_title_and_source([el])[0]
+      if !reduce_to_title_and_source(unique).include?(el_hash)
+        unique << el
+      end
+    end
+    unique
   end
 
   def query_stories(topic_name)
