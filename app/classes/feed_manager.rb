@@ -58,7 +58,7 @@ class FeedManager
     end
 
     if new_articles && new_articles.length > 0
-      new_articlese.each do |article|
+      new_articles.each do |article|
         text = scr.scrape(article["url"])
         @article = Article.create(
           title: article["title"],
