@@ -53,13 +53,12 @@ class FeedManager
       end
     end
 
-
     if existing_articles.length != response.length
       new_articles = response.select {|article| !existing_articles.include?(article)}
     end
 
     if new_articles && new_articles.length > 0
-      articles_to_create.each do |article|
+      new_articlese.each do |article|
         text = scr.scrape(article["url"])
         @article = Article.create(
           title: article["title"],
