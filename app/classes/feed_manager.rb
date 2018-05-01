@@ -43,7 +43,6 @@ class FeedManager
   end
 
   def scrape_and_create(response)
-    byebug
     scr = Scraper.new
     existing_articles = []
     response.each do |article|
