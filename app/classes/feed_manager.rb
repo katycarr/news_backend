@@ -18,44 +18,42 @@ class FeedManager
     array.map {|res| {title: res["title"], source_name: res["source"]["name"] }}
   end
 
+  def uniq_by_title_and_source(array)
+    unique = []
+    array.each do |el|
+      el_hash = reduce_to_title_and_source([el])[0]
+      if !reduce_to_title_and_source(unique).include?(el_hash)
+        unique << el
+      end
+    end
+    unique
+  end
+
   def get_categories(article_text)
     categorizer = Categorizer.new
     topics = categorizer.get_concepts(article_text)
     topic_ids = []
     if topics
-      urls = topics[:concepts].map { |topic| topic[0].to_s }
-      existing_topics = Topic.where(url: urls)
-      existing_urls = existing_topics.map(&:url)
-      if existing_topics.length > 0
-        topic_ids << existing_topics.map(&:id)
-      end
-      new_topics = topics[:concepts].select do |concept|
-        !existing_urls.include?(concept.to_s)
-      end
-      if new_topics.length > 0
-        new_topics.each do |concept|
+      topics[:concepts].each do |concept|
+        @topic = Topic.find_by(url: concept[0].to_s)
+        if !@topic
           @topic = Topic.create(name:concept[1][:surfaceForms][0][:string], url:concept[0].to_s)
-          topic_ids << @topic.id
         end
+        topic_ids << @topic.id
       end
     end
-    topic_ids.flatten!
+    topic_ids
+  end
+
+  def find_new_articles(article_array)
+    uncreated = article_array.select do |article|
+      !Article.find_by(title: article["title"], source: article["source"]["name"])
+    end
   end
 
   def scrape_and_create(response)
     scr = Scraper.new
-    existing_articles = []
-    response.each do |article|
-      match = Article.find_by(title: article["title"])
-      if match && article["source"]["name"] == match.source
-        existing_articles << article
-      end
-    end
-
-    if existing_articles.length != response.length
-      new_articles = response.select {|article| !existing_articles.include?(article)}
-    end
-
+    new_articles = find_new_articles(response)
     if new_articles && new_articles.length > 0
       new_articles.each do |article|
         text = scr.scrape(article["url"])
@@ -89,16 +87,7 @@ class FeedManager
     unique_data
   end
 
-  def uniq_by_title_and_source(array)
-    unique = []
-    array.each do |el|
-      el_hash = reduce_to_title_and_source([el])[0]
-      if !reduce_to_title_and_source(unique).include?(el_hash)
-        unique << el
-      end
-    end
-    unique
-  end
+
 
   def query_stories(topic_name)
     req = Request.new

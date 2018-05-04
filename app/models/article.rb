@@ -22,4 +22,16 @@ class Article < ApplicationRecord
       duplicates.each{|double| double.destroy} # duplicates can now be destroyed
     end
   end
+
+  def self.duplicates?
+    matching_titles = all.select(:title).group(:title).having("count(*) > 1")
+    bad = []
+    matching_titles.each do |title|
+      sources = self.where(title: title).map(&:source)
+      if sources.length != sources.uniq.length
+        bad << title
+      end
+    end
+    bad
+  end
 end
